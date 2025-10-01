@@ -1,0 +1,13 @@
+Análisis de g_app_runtime_us
+
+Cómo lo medí
+------------
+Abrí Live Expressions y agregué g_app_runtime_us. Corrí el programa (F8) y miré los valores mientras apretaba/soltaba el botón B1.
+
+Qué vi
+------
+• En cada ciclo la variable arranca en 0 y se va incrementando mientras corren las tareas de la app (Sensor → System → Actuator).
+• En mis lecturas puntuales se estabilizó alrededor de:
+  - Con el botón en UP: g_app_runtime_us ≈ 13 µs
+  - Con el botón en DOWN: g_app_runtime_us ≈ 12 µs
+• Luego, al comenzar el siguiente ciclo, vuelve a 0 y repite.

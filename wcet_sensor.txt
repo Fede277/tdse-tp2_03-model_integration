@@ -1,0 +1,11 @@
+Análisis del WCET de la tarea Sensor (task_dta_list[0].WCET)
+
+Cómo lo medí
+------------
+En Live Expressions agregué task_dta_list[0].WCET y accioné el botón B1 para generar actividad.
+
+Qué vi
+------
+• Al iniciar estaba en 0 µs.
+• Después de algunos ciclos quedó en 6 µs y se mantuvo en ese valor.
+• Aunque el tiempo instantáneo de la tarea varía ciclo a ciclo, WCET solo se actualiza cuando aparece un tiempo mayor que el máximo anterior.
