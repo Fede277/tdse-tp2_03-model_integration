@@ -1,0 +1,22 @@
+Análisis del WCET de la tarea Sensor
+
+Qué es
+El WCET (Worst-Case Execution Time) es el tiempo más largo que tardó la tarea Sensor en ejecutarse en alguno de sus ciclos. No es un promedio: es un “máximo histórico”. Ese valor se guarda en el campo WCET dentro del arreglo de datos de tareas (task_dta_list[i].WCET). Si en un ciclo la tarea tarda más que el récord anterior, el WCET se actualiza; si tarda menos, el WCET no baja.
+
+Lo que observé
+- Después de reset, el WCET arranca en 0 µs.
+- Al empezar a tocar el botón, el valor salta y queda guardado el máximo observado.
+- En mis pruebas quedó cerca de ~14 µs y se mantuvo ahí (solo sube si aparece un ciclo más pesado).
+
+Por qué puede subir
+- En las transiciones FALLING/RISING (cuando hay antirrebote y el tick va bajando) la tarea hace más pasos y tarda un poco más.
+- Si hay mensajes de LOGGER dentro de la máquina de estados, eso agrega tiempo.
+- Lo que más influye son los flancos (cambios de UP↔DOWN) con rebote; dejar el botón apretado constante casi no cambia el WCET.
+- Parar el core con el debugger puede “ensuciar” la medición, así que conviene mirar el valor con el programa corriendo.
+
+Entre botones
+Los tres botones están configurados parecido (pull-up y misma lógica), así que dan valores similares. Si uno marca un WCET un poco mayor, seguramente fue porque justo tuvo más rebote o más actividad en sus flancos.
+
+Conclusión
+El WCET del Sensor es un máximo que solo crece: empieza en 0, capta el peor caso que haya ocurrido y queda fijo hasta que aparece otro peor. Con el antirrebote activo, me quedó alrededor de 14 µs; si agrego logs o fuerzo transiciones rápidas, puede subir.
+
